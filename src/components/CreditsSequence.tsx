@@ -6,7 +6,7 @@ import { useExperience } from "@/lib/experience";
 import { Wordmark } from "@/components/Wordmark";
 
 export function CreditsSequence() {
-  const { setCreditsOpen, restart, setBirthdayOpen } = useExperience();
+  const { setCreditsOpen, restart, setNoteOpen } = useExperience();
   const [ended, setEnded] = useState(false);
 
   useEffect(() => {
@@ -107,11 +107,11 @@ export function CreditsSequence() {
             <button
               onClick={() => {
                 setCreditsOpen(false);
-                setBirthdayOpen(true);
+                setNoteOpen(true);
               }}
               className="rounded border border-border px-6 py-3 text-sm font-semibold transition hover:border-primary"
             >
-              Read The Message Again
+              Read The Note Again
             </button>
           </motion.div>
         </motion.div>

@@ -9,7 +9,7 @@ import { Navbar } from "@/components/Navbar";
 import { DetailModal } from "@/components/DetailModal";
 import { SearchOverlay } from "@/components/SearchOverlay";
 import { VideoPlayer } from "@/components/VideoPlayer";
-import { BirthdayExperience } from "@/components/BirthdayExperience";
+import { MiAmorExperience } from "@/components/MiAmorExperience";
 import { CreditsSequence } from "@/components/CreditsSequence";
 import { AmbientAudio } from "@/components/AmbientAudio";
 import { Wordmark } from "@/components/Wordmark";
@@ -21,7 +21,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     playingId,
     detailId,
     searchOpen,
-    birthdayOpen,
+    noteOpen,
     creditsOpen,
     setCreditsOpen,
   } = useExperience();
@@ -76,7 +76,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <AnimatePresence>
         {playing && <VideoPlayer key={playing.id} item={playing} />}
       </AnimatePresence>
-      <AnimatePresence>{birthdayOpen && <BirthdayExperience key="bday" />}</AnimatePresence>
+      <AnimatePresence>{noteOpen && <MiAmorExperience key="mi-amor-note" />}</AnimatePresence>
       <AnimatePresence>{creditsOpen && <CreditsSequence key="credits" />}</AnimatePresence>
     </div>
   );

@@ -7,18 +7,37 @@ export function Hero() {
   const { play, openDetail } = useExperience();
 
   return (
-    <section className="grain relative min-h-[86svh] w-full overflow-hidden sm:min-h-[92svh]">
-      <div className="absolute inset-0">
+    <section className="grain relative min-h-[88svh] w-full overflow-hidden bg-background sm:min-h-[94svh]">
+      <div className="absolute inset-0 bg-background">
         {hero.video ? (
-          <video
-            src={hero.video}
-            poster={hero.image}
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="h-full w-full object-cover"
-          />
+          <>
+            <img
+              src={hero.image}
+              alt=""
+              aria-hidden
+              className="absolute inset-0 h-full w-full scale-110 object-cover object-center blur-3xl opacity-40"
+            />
+            <video
+              src={hero.video}
+              poster={hero.image}
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="absolute inset-0 h-full w-full object-cover opacity-20 blur-sm"
+            />
+            <div className="absolute inset-y-8 right-4 z-0 flex w-[calc(100%-2rem)] items-center justify-center overflow-hidden rounded-2xl border border-foreground/10 bg-background/35 shadow-2xl sm:inset-y-10 sm:right-8 sm:w-[53%] lg:right-12 lg:w-[47%]">
+              <video
+                src={hero.video}
+                poster={hero.image}
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="h-full w-full object-contain opacity-95"
+              />
+            </div>
+          </>
         ) : (
           <img
             src={hero.image}
@@ -27,11 +46,11 @@ export function Hero() {
             className="ken-burns h-full w-full object-cover object-top"
           />
         )}
-        <div className="hero-fade-side absolute inset-0" />
-        <div className="hero-fade absolute inset-0" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/55 to-background/10 sm:bg-gradient-to-r sm:from-background sm:via-background/82 sm:to-background/10" />
+        <div className="hero-fade absolute inset-0 opacity-80" />
       </div>
 
-      <div className="relative flex min-h-[86svh] flex-col justify-end px-4 pb-16 sm:min-h-[92svh] sm:px-10 sm:pb-24">
+      <div className="relative z-10 flex min-h-[88svh] flex-col justify-end px-4 pb-12 sm:min-h-[94svh] sm:max-w-[58%] sm:justify-center sm:px-10 sm:pt-16 sm:pb-10 lg:max-w-[56%]">
         <motion.div
           initial={{ opacity: 0, y: 26 }}
           animate={{ opacity: 1, y: 0 }}

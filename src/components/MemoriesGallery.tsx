@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
-import { memories } from "@/content/content";
+import { memories, memorySections } from "@/content/content";
 
 export function MemoriesGallery() {
   const [index, setIndex] = useState<number | null>(null);
@@ -26,34 +26,48 @@ export function MemoriesGallery() {
 
   return (
     <>
-      <div className="columns-2 gap-3 px-4 sm:columns-3 sm:gap-4 sm:px-10 lg:columns-4">
-        {memories.map((m, i) => (
-          <motion.button
-            key={m.id}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.55, delay: Math.min(i * 0.06, 0.4) }}
-            onClick={() => setIndex(i)}
-            className="group mb-3 block w-full break-inside-avoid overflow-hidden rounded-lg border border-border/60 text-left sm:mb-4"
-          >
-            <div className="relative">
-              <img
-                src={m.image}
-                alt={m.title}
-                loading="lazy"
-                className="w-full object-cover transition duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/10 to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 p-3">
-                <p className="text-[0.6rem] tracking-[0.3em] text-primary uppercase">{m.date}</p>
-                <p className="mt-1 font-display text-base">{m.title}</p>
-                <p className="mt-0.5 line-clamp-2 text-xs text-muted-foreground opacity-0 transition duration-300 group-hover:opacity-100">
-                  {m.caption}
-                </p>
-              </div>
+      <div className="space-y-14 px-4 sm:px-10">
+        {memorySections.map((section) => (
+          <section key={section.key}>
+            <div className="mb-5 max-w-2xl">
+              <p className="text-[0.6rem] tracking-[0.35em] text-primary uppercase">{section.eyebrow}</p>
+              <h2 className="mt-2 font-display text-2xl sm:text-3xl">{section.title}</h2>
+              <p className="mt-2 text-sm text-muted-foreground">{section.description}</p>
             </div>
-          </motion.button>
+            <div className="columns-2 gap-3 sm:columns-3 sm:gap-4 lg:columns-4">
+              {section.items.map((m, i) => {
+                const memoryIndex = memories.findIndex((memory) => memory.id === m.id);
+                return (
+                  <motion.button
+                    key={m.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-60px" }}
+                    transition={{ duration: 0.55, delay: Math.min(i * 0.04, 0.35) }}
+                    onClick={() => setIndex(memoryIndex)}
+                    className="group mb-3 block w-full break-inside-avoid overflow-hidden rounded-lg border border-border/60 text-left sm:mb-4"
+                  >
+                    <div className="relative">
+                      <img
+                        src={m.image}
+                        alt={m.title}
+                        loading="lazy"
+                        className="w-full object-cover transition duration-700 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/10 to-transparent" />
+                      <div className="absolute inset-x-0 bottom-0 p-3">
+                        <p className="text-[0.6rem] tracking-[0.3em] text-primary uppercase">{m.date}</p>
+                        <p className="mt-1 font-display text-base">{m.title}</p>
+                        <p className="mt-0.5 line-clamp-2 text-xs text-muted-foreground opacity-0 transition duration-300 group-hover:opacity-100">
+                          {m.caption}
+                        </p>
+                      </div>
+                    </div>
+                  </motion.button>
+                );
+              })}
+            </div>
+          </section>
         ))}
       </div>
 

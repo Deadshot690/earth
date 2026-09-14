@@ -4,8 +4,8 @@ import { brand, img } from "@/content/content";
 import { Wordmark } from "@/components/Wordmark";
 
 const profiles = [
-  { id: "Anne", name: brand.nickname, image: img.profile },
-  { id: "main", name: "The Main Character", image: img.p4 },
+  { id: "Vaidehi", name: brand.personName, image: img.profile },
+  { id: "main", name: "The Main Character", image: img.mainCharacter },
 ];
 
 export function ProfileSelector({ onSelect }: { onSelect: () => void }) {
@@ -69,4 +69,3 @@ export function ProfileSelector({ onSelect }: { onSelect: () => void }) {
     </motion.div>
   );
 }
-

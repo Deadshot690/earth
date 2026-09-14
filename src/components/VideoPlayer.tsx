@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ChevronLeft,
+  ListVideo,
   Maximize2,
   Minimize2,
   Pause,
@@ -43,6 +44,7 @@ export function VideoPlayer({ item }: { item: MediaItem }) {
   const [failed, setFailed] = useState(false);
   const [titleCard, setTitleCard] = useState(true);
   const [nextPrompt, setNextPrompt] = useState(false);
+  const [episodeRailOpen, setEpisodeRailOpen] = useState(false);
 
   const nextEpisode =
     item.type === "episode" ? episodes.find((e) => (e.episode ?? 0) === (item.episode ?? 0) + 1) : undefined;
@@ -74,17 +76,30 @@ export function VideoPlayer({ item }: { item: MediaItem }) {
 
   const finish = useCallback(() => {
     saveProgress(item.id, duration, duration);
-    if (item.type === "episode" && !nextEpisode) {
+    if (item.type === "episode" && nextEpisode) {
+      setPlaying(false);
+      setNextPrompt(true);
+      return;
+    }
+    if (item.type === "episode") {
       closePlayer();
       setCreditsOpen(true);
     } else {
       closePlayer();
     }
-  }, [closePlayer, duration, item.id, item.type, nextEpisode, saveProgress, setCreditsOpen]);
+  }, [
+    closePlayer,
+    duration,
+    item.id,
+    item.type,
+    nextEpisode,
+    saveProgress,
+    setCreditsOpen,
+  ]);
 
   useEffect(() => {
-    if (current >= duration && duration > 0) finish();
-  }, [current, duration, finish]);
+    if (current >= duration && duration > 0 && !(item.type === "episode" && nextEpisode)) finish();
+  }, [current, duration, finish, item.type, nextEpisode]);
 
   // Controls auto-hide
   useEffect(() => {
@@ -273,6 +288,84 @@ export function VideoPlayer({ item }: { item: MediaItem }) {
         )}
       </AnimatePresence>
 
+      {/* Episode browser */}
+      {item.type === "episode" && !titleCard && (
+        <aside
+          className={`absolute top-20 right-4 bottom-24 z-[40] flex w-[min(21rem,calc(100vw_-_2rem))] flex-col overflow-hidden rounded-xl border border-border/70 bg-background/90 shadow-2xl backdrop-blur-xl ${
+            episodeRailOpen ? "flex" : "hidden sm:flex"
+          }`}
+          aria-label="Season 1 episodes"
+        >
+          <div className="border-b border-border/70 px-4 py-3">
+            <p className="text-[0.6rem] tracking-[0.35em] text-primary uppercase">The Vaidehi Story</p>
+            <div className="mt-1 flex items-baseline justify-between gap-3">
+              <h2 className="font-display text-lg">Season 1</h2>
+              <span className="text-xs text-muted-foreground">{episodes.length} chapters</span>
+            </div>
+            <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+              Six moving pieces from close-up magic to every unexpected side of Vaidehi's Earth.
+            </p>
+          </div>
+
+          <div className="scrollbar-none min-h-0 flex-1 overflow-y-auto p-2">
+            {episodes.map((episode) => {
+              const episodeProgress = progress[episode.id];
+              const episodePct =
+                episodeProgress && episodeProgress.duration
+                  ? Math.min(100, (episodeProgress.time / episodeProgress.duration) * 100)
+                  : 0;
+              const selected = episode.id === item.id;
+
+              return (
+                <button
+                  key={episode.id}
+                  onClick={() => {
+                    if (!selected) play(episode.id);
+                    setEpisodeRailOpen(false);
+                  }}
+                  className={`group flex w-full gap-3 rounded-lg p-2 text-left transition ${
+                    selected
+                      ? "bg-primary/15 ring-1 ring-primary/60"
+                      : "hover:bg-foreground/10"
+                  }`}
+                  aria-current={selected ? "true" : undefined}
+                >
+                  <div className="relative h-16 w-28 shrink-0 overflow-hidden rounded-md bg-muted">
+                    <img
+                      src={episode.image}
+                      alt=""
+                      loading="lazy"
+                      className="h-full w-full object-cover object-top transition duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center bg-background/35">
+                      {selected ? (
+                        <span className="h-2 w-2 rounded-full bg-primary shadow-[var(--shadow-glow)]" />
+                      ) : (
+                        <Play className="h-4 w-4 fill-current opacity-0 transition group-hover:opacity-100" />
+                      )}
+                    </div>
+                    {episodePct > 1 && (
+                      <div className="absolute inset-x-0 bottom-0 h-1 bg-muted">
+                        <div className="h-full bg-primary" style={{ width: `${episodePct}%` }} />
+                      </div>
+                    )}
+                  </div>
+                  <div className="min-w-0 flex-1 py-0.5">
+                    <p className="text-[0.6rem] tracking-[0.25em] text-subtle uppercase">
+                      E{String(episode.episode).padStart(2, "0")}
+                    </p>
+                    <p className="mt-1 truncate text-sm font-semibold">{episode.title}</p>
+                    <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-muted-foreground">
+                      {episode.description}
+                    </p>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </aside>
+      )}
+
       {/* Controls */}
       <AnimatePresence>
         {controls && !titleCard && (
@@ -292,9 +385,21 @@ export function VideoPlayer({ item }: { item: MediaItem }) {
                 <ChevronLeft className="h-6 w-6" />
                 <span className="hidden text-sm sm:inline">Back to {brand.name}</span>
               </button>
-              <button onClick={closePlayer} aria-label="Close" className="text-muted-foreground hover:text-foreground">
-                <X className="h-6 w-6" />
-              </button>
+              <div className="flex items-center gap-4">
+                {item.type === "episode" && (
+                  <button
+                    onClick={() => setEpisodeRailOpen((open) => !open)}
+                    aria-label={episodeRailOpen ? "Hide episodes" : "Show episodes"}
+                    className="flex items-center gap-2 text-muted-foreground transition hover:text-foreground sm:hidden"
+                  >
+                    <ListVideo className="h-5 w-5" />
+                    <span className="text-xs">Episodes</span>
+                  </button>
+                )}
+                <button onClick={closePlayer} aria-label="Close" className="text-muted-foreground hover:text-foreground">
+                  <X className="h-6 w-6" />
+                </button>
+              </div>
             </div>
 
             <div className="space-y-3 bg-gradient-to-t from-background via-background/70 to-transparent px-4 pt-16 pb-5 sm:px-8 sm:pb-7">

@@ -39,8 +39,8 @@ interface ExperienceValue {
   searchOpen: boolean;
   setSearchOpen: (v: boolean) => void;
 
-  birthdayOpen: boolean;
-  setBirthdayOpen: (v: boolean) => void;
+  noteOpen: boolean;
+  setNoteOpen: (v: boolean) => void;
 
   creditsOpen: boolean;
   setCreditsOpen: (v: boolean) => void;
@@ -80,7 +80,7 @@ export function ExperienceProvider({ children }: { children: ReactNode }) {
   const [playingId, setPlayingId] = useState<string | null>(null);
   const [detailId, setDetailId] = useState<string | null>(null);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [birthdayOpen, setBirthdayOpen] = useState(false);
+  const [noteOpen, setNoteOpen] = useState(false);
   const [creditsOpen, setCreditsOpen] = useState(false);
   const [muted, setMuted] = useState(false);
 
@@ -106,7 +106,7 @@ export function ExperienceProvider({ children }: { children: ReactNode }) {
 
   const restart = useCallback(() => {
     setCreditsOpen(false);
-    setBirthdayOpen(false);
+    setNoteOpen(false);
     setPlayingId(null);
     setDetailId(null);
     setStage("intro");
@@ -160,8 +160,8 @@ export function ExperienceProvider({ children }: { children: ReactNode }) {
     closeDetail: () => setDetailId(null),
     searchOpen,
     setSearchOpen,
-    birthdayOpen,
-    setBirthdayOpen,
+    noteOpen,
+    setNoteOpen,
     creditsOpen,
     setCreditsOpen,
     muted,
@@ -176,4 +176,3 @@ export function useExperience() {
   if (!ctx) throw new Error("useExperience must be used inside ExperienceProvider");
   return ctx;
 }
-

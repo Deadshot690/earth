@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Gift, Menu, Search, Volume2, VolumeX, X } from "lucide-react";
+import { Heart, Menu, Search, Volume2, VolumeX, X } from "lucide-react";
 import { img } from "@/content/content";
 import { useExperience } from "@/lib/experience";
 import { Wordmark } from "@/components/Wordmark";
@@ -15,7 +15,7 @@ const links = [
 ] as const;
 
 export function Navbar() {
-  const { setSearchOpen, setBirthdayOpen, muted, toggleMuted } = useExperience();
+  const { setSearchOpen, setNoteOpen, muted, toggleMuted } = useExperience();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
@@ -73,11 +73,11 @@ export function Navbar() {
             <Search className="h-5 w-5" />
           </button>
           <button
-            onClick={() => setBirthdayOpen(true)}
+            onClick={() => setNoteOpen(true)}
             className="flex items-center gap-2 rounded-full bg-primary px-3 py-1.5 text-xs font-semibold tracking-wide text-primary-foreground transition hover:bg-primary-glow sm:px-4 sm:text-sm"
           >
-            <Gift className="h-4 w-4" />
-            <span className="hidden sm:inline">Birthday Special</span>
+            <Heart className="h-4 w-4 fill-current" />
+            <span className="hidden sm:inline">Mi Amor Note</span>
           </button>
           <img
             src={img.profile}

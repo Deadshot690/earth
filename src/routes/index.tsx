@@ -7,16 +7,16 @@ import { ContentRow } from "@/components/ContentRow";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Anne Originals — Home" },
+      { title: "Vaidehi Originals — Home" },
       {
         name: "description",
         content:
-          "Browse the Anne Cinematic Universe: original films, one season of chapters and a birthday special.",
+          "Browse Vaidehi's Earth: six video chapters, feature cuts and 94 sorted original frames.",
       },
-      { property: "og:title", content: "Anne Originals — Home" },
+      { property: "og:title", content: "Vaidehi Originals — Home" },
       {
         property: "og:description",
-        content: "Original films, chapters and memories — streaming exclusively for Anne.",
+        content: "Original films, chapters and memories from Vaidehi's Earth.",
       },
     ],
   }),
@@ -29,7 +29,7 @@ function Index() {
   return (
     <>
       <Hero />
-      <div className="relative z-10 -mt-16 sm:-mt-24">
+      <div className="relative z-10 -mt-4 sm:-mt-8">
         {continueWatching.length > 0 && (
           <ContentRow title="Continue Watching" items={continueWatching} wide />
         )}
@@ -40,4 +40,3 @@ function Index() {
     </>
   );
 }
-

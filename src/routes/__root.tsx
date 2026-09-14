@@ -74,17 +74,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Anne Originals — The Story of Anne" },
+      { title: "Vaidehi Originals — My Earth, Mi Amor" },
       {
         name: "description",
         content:
-          "A cinematic streaming experience built entirely out of memories, moments and one very special birthday.",
+          "A cinematic streaming experience built from 94 original frames and six moving chapters from Vaidehi's Earth.",
       },
-      { name: "author", content: "Anne Originals" },
-      { property: "og:title", content: "Anne Originals — The Story of Anne" },
+      { name: "author", content: "Vaidehi Originals" },
+      { property: "og:title", content: "Vaidehi Originals — My Earth, Mi Amor" },
       {
         property: "og:description",
-        content: "A private streaming service made for Anne. One season. Eight chapters.",
+        content: "A private streaming archive with six video chapters and 94 photographs.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -135,5 +135,3 @@ function RootComponent() {
     </QueryClientProvider>
   );
 }
-
-

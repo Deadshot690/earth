@@ -7,15 +7,15 @@ import { EpisodeCard } from "@/components/EpisodeCard";
 export const Route = createFileRoute("/series")({
   head: () => ({
     meta: [
-      { title: "The Story of Anne — Series" },
+      { title: "The Vaidehi Story — Series" },
       {
         name: "description",
-        content: "One season, four video chapters about the girl who makes ordinary days cinematic.",
+        content: "One season, six video chapters built from Vaidehi's Earth.",
       },
-      { property: "og:title", content: "The Story of Anne — Series" },
+      { property: "og:title", content: "The Vaidehi Story — Series" },
       {
         property: "og:description",
-        content: "Season 1: four video chapters of chaos, kindness and inside jokes.",
+        content: "Season 1: six video chapters of movement, style and unforgettable frames.",
       },
     ],
   }),
@@ -46,13 +46,19 @@ function SeriesPage() {
             onClick={() => play(episodes[0]!.id)}
             className="mt-6 flex w-fit items-center gap-2 rounded bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition hover:bg-primary-glow"
           >
-            <Play className="h-4 w-4 fill-current" /> Play Episode 1
+            <Play className="h-4 w-4 fill-current" /> Play Season 1
           </button>
         </div>
       </section>
 
       <div className="px-4 py-12 sm:px-10">
-        <h2 className="font-display text-2xl">Season 1</h2>
+        <div>
+          <h2 className="font-display text-2xl">Season 1</h2>
+          <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+            Six short chapters, one continuous story. Choose any episode below or open the player to browse
+            the complete season without leaving the screen.
+          </p>
+        </div>
         <div className="mt-6 space-y-3">
           {episodes.map((e, i) => (
             <EpisodeCard key={e.id} item={e} index={i} />
@@ -62,4 +68,3 @@ function SeriesPage() {
     </div>
   );
 }
-

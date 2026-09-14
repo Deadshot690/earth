@@ -23,15 +23,24 @@ export function IntroSequence({ onDone }: { onDone: () => void }) {
       transition={{ duration: 0.8 }}
     >
       <motion.img
-        src={img.hero}
+        src={img.intro}
         alt=""
         aria-hidden
-        initial={{ opacity: 0, scale: 1.05 }}
-        animate={{ opacity: phase >= 1 ? (phase >= 3 ? 0.12 : 0.55) : 0, scale: 1.2 }}
+        initial={{ opacity: 0, scale: 1.02 }}
+        animate={{ opacity: phase >= 1 ? (phase >= 3 ? 0.18 : 0.48) : 0, scale: 1.06 }}
         transition={{ opacity: { duration: 2 }, scale: { duration: 8, ease: "easeOut" } }}
-        className="absolute inset-0 h-full w-full object-cover"
+        className="absolute inset-0 h-full w-full scale-105 object-cover object-center blur-2xl"
       />
-      <div className="absolute inset-0 bg-background/60" />
+      <motion.img
+        src={img.intro}
+        alt=""
+        aria-hidden
+        initial={{ opacity: 0 }}
+        animate={{ opacity: phase >= 1 ? (phase >= 3 ? 0.32 : 0.92) : 0 }}
+        transition={{ opacity: { duration: 2 } }}
+        className="absolute inset-0 h-full w-full object-contain object-center"
+      />
+      <div className="absolute inset-0 bg-background/55" />
 
       <div className="relative flex h-full flex-col items-center justify-center px-6 text-center">
         <motion.div
